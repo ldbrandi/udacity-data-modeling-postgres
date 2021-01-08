@@ -87,16 +87,16 @@ The database star schema is used in this data model mainly for the benefits of f
  
 ```
 songplays (
-	songplay_id SERIAL PRIMARY KEY,
-	start_time timestamp,
-	user_id varchar,
-	level varchar,
-	song_id varchar,
-	artist_id varchar,
-	session_id int,
-	location varchar,
-	user_agent varchar
-);
+	songplay_id serial PRIMARY KEY,
+    start_time timestamp,
+    user_id int,
+    level text,
+    song_id text,
+    artist_id text,
+    session_id int,
+    location text,
+    user_agent text
+)
 ```
 
 #### 2. Dimension Tables
@@ -105,50 +105,50 @@ songplays (
   
 ```
 users (
-    user_id varchar PRIMARY KEY,
-    first_name varchar,
-    last_name varchar,
-    gender varchar,
-    level varchar
-);
+    user_id int PRIMARY KEY,
+    first_name text,
+    last_name text,
+    gender text,
+    level text
+)
 ``` 
 
 #### Songs - Songs details
   
 ```
 songs (
-    song_id varchar PRIMARY KEY,
-    title varchar NOT NULL,
-    artist_id varchar NOT NULL,
-    year varchar NOT NULL,
-    duration float NOT NULL
-);
+    song_id text PRIMARY KEY,
+    title text,
+    artist_id text,
+    year int,
+    duration float
+)
 ```
 
 #### Artists - Artists details
 
 ```
 artists (
-	artist_id varchar PRIMARY KEY,
-	name varchar NOT NULL,
-	location varchar NOT NULL,
-	latitude float NOT NULL,
-	longitude float NOT NULL
-);
+	artist_id text PRIMARY KEY,
+    name text,
+    location text,
+    latitude text,
+    longitude text
+)
 ```
 
 #### Time - Timestamps of records in `songplays` broken down into specific units
 
 ```
 time (
-    start_time timestamp primary key,
-    hour int NOT NULL,
-    day int NOT NULL,
-    week int NOT NULL,
-    month int NOT NULL,
-    year int NOT NULL,
-    weekday int NOT NULL
-);
+    start_time timestamp PRIMARY KEY,
+    hour int,
+    day int,
+    week int,
+    month int,
+    year int,
+    weekday int
+)
 ```
 
 ### Environment
@@ -164,23 +164,21 @@ PostgresSQL 9.5 or above
 - Dropping tables 
 - Inserting records/tuples
 
-`create_table.py`- Contains code for
+`create_table.py`- Contains code for:
 - Setting up the database to create Sparkifydb
-- Creating the fact table
-- Creating dimension tables
+- Creating tables
 
 `etl.py`- Contains code to:
 - Read `song_data` and `log_data`
-- Process `song_data` and `log_data`
 - Implement the ETL pipeline
 
 ### Algorithm details
 
 #### 1. Database
  
-To create the database and tables we run the script `create_table.py` which contains the code that will import all queries stored in `sql_queries.py` and will execute them.
+Run the script `create_table.py` which contains the code to import all queries stored in `sql_queries.py` and execute them.
 
-First, it will drop existing tables and databases, then it will go ahead to create the database and all its tables.
+It will drop the existing database and then recreate the database and all its tables.
 
 Each table has a primary key which will be used to join with other tables in the star schema database model.
 
@@ -197,7 +195,7 @@ The function `get_files` gets a list of all log .JSON files in the file path `da
 In order to extract time, each record is filtered by the `NextSong` action which extracts the timestamp, hour, day, week-of-year, year, month, and weekday from the ts column and set the time_data to a list of ordered values by converting ts timestamp column to DateTime.
 
 In order to get the data for the `users` table, the script will: 
-- Read 'userId','firstName','lastName', 'gender', 'level';
+- Read 'userId', 'firstName', 'lastName', 'gender', 'level';
 - Remove duplicates;
 - Insert unique user records into the users table.
 
