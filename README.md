@@ -159,16 +159,16 @@ PostgresSQL 9.5 or above
 
 ### Project Files
 
-`sql_queries.py`- Contains SQL queries for:
+[sql_queries.py](sql_queries.py) - Contains SQL queries for:
 - Creating fact and dimension tables
 - Dropping tables 
 - Inserting records/tuples
 
-`create_table.py`- Contains code for:
+[create_table.py](create_table.py) - Contains code for:
 - Setting up the database to create Sparkifydb
 - Creating tables
 
-`etl.py`- Contains code to:
+[etl.py](etl.py) - Contains code to:
 - Read `song_data` and `log_data`
 - Implement the ETL pipeline
 
@@ -176,7 +176,7 @@ PostgresSQL 9.5 or above
 
 #### 1. Database
  
-Run the script `create_table.py` which contains the code to import all queries stored in `sql_queries.py` and execute them.
+Run the script [create_table.py](create_table.py) which contains the code to import all queries stored in [sql_queries.py](sql_queries.py) and execute them.
 
 It will drop the existing database and then recreate the database and all its tables.
 
@@ -186,7 +186,7 @@ The `ON CONFLICT DO NOTHING` clause is used to write to tables on all the insert
  
  #### 2. ETL
  
-The `etl.py` script provides many functions to perform the ETL process:
+The [etl.py](etl.py) script provides many functions to perform the ETL process:
 
 The function `process_song_file` will read each .JSON file located in the file path `data/song_data` to extract data and write into the `artists` and `songs` table.
 
